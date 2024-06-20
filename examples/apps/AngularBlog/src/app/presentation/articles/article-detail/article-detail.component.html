@@ -1,0 +1,21 @@
+@if(article){
+<div class="card">
+  @if(article.image) {
+  <img [src]="article.image" alt="Article image" />
+  }
+  <div class="card-body">
+    <h5 class="card-title">{{ article.title }}</h5>
+    <p class="card-text">Author: {{ article.author }}</p>
+    <p class="card-text">
+      Published at: {{ article.publishedAt.value | date : 'shortDate' }}
+    </p>
+
+    <p class="card-text">
+      {{ article.content }}
+    </p>
+    <a [href]="article.articleUrl.value" target="_blank">Link</a>
+  </div>
+</div>
+} @else {
+<p>This article not exist anymore!</p>
+}

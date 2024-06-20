@@ -1,0 +1,21 @@
+@if(queryResult) { @if(queryResult.isLoading()) {
+<div class="spinner"></div>
+} @if(queryResult.isError()) {
+<div class="error-message">
+  {{ queryResult.error().message }}
+</div>
+
+} @for (product of queryResult.data(); track product.id.value) {
+<div class="card">
+  <img [src]="product.image" class="card-img-top" alt="Product image" />
+  <div class="card-body">
+    <h5 class="card-title">{{ product.title }}</h5>
+    <p class="card-text">{{ product.description }}</p>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Price: {{ product.price.value }}</li>
+      <li class="list-group-item">Discount: {{ product.discount.value }}</li>
+    </ul>
+  </div>
+</div>
+
+} }

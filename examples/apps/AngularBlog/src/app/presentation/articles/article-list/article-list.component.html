@@ -1,0 +1,49 @@
+<div class="page">
+  <h2>Article list</h2>
+  <label>
+    Search:
+    <input
+      class="search-bar"
+      #searchQuery
+      type="text"
+      (input)="onSearchUpdated(searchQuery.value)"
+    />
+  </label>
+  <div class="pagination-wrapper">
+    @if(page() > 1) {
+    <button (click)="prevPage()">Prev Page</button>
+    } @if(articleService.totalResults$()/10 > page()) {
+    <button (click)="nextPage()">Next Page</button>
+    }
+  </div>
+
+  @if(!articleService.loading$() && !articleService.error$()) {
+  <ul class="list">
+    @for(article of articleService.entities$(); track article.id.value) {
+    <div class="card" [routerLink]="[article.id.value]">
+      @if(article.image) {
+      <img [src]="article.image" alt="Article image" />
+      }
+      <div class="card-body">
+        <h5 class="card-title">{{ article.title }}</h5>
+        <p class="card-text">Author: {{ article.author }}</p>
+        <p class="card-text">
+          Published at: {{ article.publishedAt.value | date : 'shortDate' }}
+        </p>
+
+        <p class="card-text">
+          {{ article.description }}
+        </p>
+      </div>
+    </div>
+    } @empty {
+    <div>No articles found</div>
+    }
+  </ul>
+
+  } @if(articleService.loading$()) {
+  <div class="spinner"></div>
+  } @if(articleService.error$()) {
+  <div class="error-message">An error occurred!</div>
+  }
+</div>
